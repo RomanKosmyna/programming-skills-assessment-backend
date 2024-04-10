@@ -1,4 +1,6 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using programming_skills_assessment_backend;
 using programming_skills_assessment_backend.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,11 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//builder.Services.AddAutoMapper(typeof(TestTypeProfile));
+builder.Services.AddAutoMapper(typeof(Program));
 // Connecting first Database (Tests)
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection"));
 });
+
 
 var app = builder.Build();
 

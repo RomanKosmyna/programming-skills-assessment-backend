@@ -1,0 +1,12 @@
+﻿using programming_skills_assessment_backend.Models;
+using System.ComponentModel.DataAnnotations;
+
+namespace programming_skills_assessment_backend.Dtos.TestType;
+
+public class TestTypeDto
+{
+    public Guid TestTypeID { get; set; }
+    [Required]
+    public string TestTypeName { get; set; } = string.Empty;
+    public List<Test> Tests { get; set; } = [];
+}
