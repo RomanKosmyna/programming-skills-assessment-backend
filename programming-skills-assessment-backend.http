@@ -1,0 +1,6 @@
+@programming_skills_assessment_backend_HostAddress = http://localhost:5230
+
+GET {{programming_skills_assessment_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
