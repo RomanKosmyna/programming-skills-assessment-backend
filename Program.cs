@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
+using programming_skills_assessment_backend.Extensions;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Repository;
 
@@ -29,6 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// Global exception handler
+app.ConfigureExceptionHandler();
 
 app.UseHttpsRedirection();
 

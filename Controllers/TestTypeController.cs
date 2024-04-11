@@ -10,12 +10,10 @@ namespace programming_skills_assessment_backend.Controllers;
 public class TestTypeController : ControllerBase
 {
     private readonly ITestTypeRepository _testTypeRepo;
-    private readonly IMapper _mapper;
 
-    public TestTypeController(ITestTypeRepository testTypeRepo, IMapper mapper)
+    public TestTypeController(ITestTypeRepository testTypeRepo)
     {
         _testTypeRepo = testTypeRepo;
-        _mapper = mapper;
     }
 
     [HttpGet]
@@ -26,6 +24,8 @@ public class TestTypeController : ControllerBase
         var testTypes = await _testTypeRepo.GetAllAsync();
 
         if (testTypes == null) return NotFound();
+
+        throw new ArgumentException();
 
         return Ok(testTypes);
     }
