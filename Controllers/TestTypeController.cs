@@ -1,32 +1,32 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using programming_skills_assessment_backend.Data;
 using programming_skills_assessment_backend.Dtos.TestType;
+using programming_skills_assessment_backend.Interfaces;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("api/testtype")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class TestTypeController : ControllerBase
 {
-    private readonly ApplicationDBContext _dbContext;
+    private readonly ITestTypeRepository _testTypeRepo;
     private readonly IMapper _mapper;
 
-    public TestTypeController(ApplicationDBContext context, IMapper mapper)
+    public TestTypeController(ITestTypeRepository testTypeRepo, IMapper mapper)
     {
-        _dbContext = context;
+        _testTypeRepo = testTypeRepo;
         _mapper = mapper;
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetTestTypeById([FromRoute] Guid id)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
     {
-        var testType = await _dbContext.TestTypes.FindAsync(id);
+        if (!ModelState.IsValid) return BadRequest(ModelState);
 
-        if (testType == null) return NotFound();
+        var testTypes = await _testTypeRepo.GetAllAsync();
 
-        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
+        if (testTypes == null) return NotFound();
 
-        return Ok(testTypeDto);
+        return Ok(testTypes);
     }
 }

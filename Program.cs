@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
+using programming_skills_assessment_backend.Interfaces;
+using programming_skills_assessment_backend.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +18,8 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection"));
 });
 
+// Dependecy Injections
+builder.Services.AddScoped<ITestTypeRepository, TestTypeRepository>();
 
 var app = builder.Build();
 
