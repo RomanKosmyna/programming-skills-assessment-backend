@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.Data;
 using programming_skills_assessment_backend.Dtos.TestType;
@@ -23,11 +22,10 @@ public class TestTypeController : ControllerBase
     public async Task<IActionResult> GetTestTypeById([FromRoute] Guid id)
     {
         var testType = await _dbContext.TestTypes.FindAsync(id);
+
+        if (testType == null) return NotFound();
+
         var testTypeDto = _mapper.Map<TestTypeDto>(testType);
-        if (testType == null)
-        {
-            return NotFound();
-        }
 
         return Ok(testTypeDto);
     }
