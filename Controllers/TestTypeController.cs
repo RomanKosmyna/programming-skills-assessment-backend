@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using programming_skills_assessment_backend.Dtos.TestType;
+﻿using Microsoft.AspNetCore.Mvc;
+using programming_skills_assessment_backend.ActionFilters;
 using programming_skills_assessment_backend.Interfaces;
+using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
@@ -17,15 +17,11 @@ public class TestTypeController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    [ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestType>))]
     public async Task<IActionResult> GetAll()
     {
-        if (!ModelState.IsValid) return BadRequest(ModelState);
-
         var testTypes = await _testTypeRepo.GetAllAsync();
-
-        if (testTypes == null) return NotFound();
-
-        throw new ArgumentException();
 
         return Ok(testTypes);
     }

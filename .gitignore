@@ -365,3 +365,6 @@ FodyWeavers.xsd
 # Settings
 appsettings.json
 appsettings.Development.json
+
+# For later
+ForLater
