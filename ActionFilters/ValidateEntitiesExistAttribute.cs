@@ -15,7 +15,6 @@ public class ValidateEntitiesExistAttribute<T> : IActionFilter where T: class
 
     public void OnActionExecuting(ActionExecutingContext context)
     {
-
         var entityStatus = _dbContext.Set<T>().Any();
 
         if (!entityStatus)

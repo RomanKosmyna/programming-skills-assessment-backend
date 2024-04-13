@@ -18,10 +18,12 @@ public class TestTypeController : ControllerBase
 
     [HttpGet]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    [ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestType>))]
+    //[ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestType>))]
     public async Task<IActionResult> GetAll()
     {
         var testTypes = await _testTypeRepo.GetAllAsync();
+
+        if (testTypes == null) return NotFound();
 
         return Ok(testTypes);
     }
