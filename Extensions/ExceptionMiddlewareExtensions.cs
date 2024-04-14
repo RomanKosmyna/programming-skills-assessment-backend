@@ -23,8 +23,10 @@ public static class ExceptionMiddlewareExtensions
                     {
                         FileNotFoundException fileNotFoundException => "Error: File not found.",
                         ArgumentException argumentException => "Error: Invalid argument.",
-                        _ => "Internal Server Error."
+                        _ => exception.Message
                     };
+
+
 
                     await context.Response.WriteAsync(new ErrorDetails()
                     {

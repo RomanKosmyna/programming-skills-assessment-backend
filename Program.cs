@@ -6,6 +6,7 @@ using programming_skills_assessment_backend.Extensions;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 using programming_skills_assessment_backend.Repository;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -23,12 +24,13 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 // Initializing SQLite database
 //ExceptionDatabaseHelper.InitializeDatabase();
 
-// Configure Serilog logger with a SQLite database
-//Log.Logger = new LoggerConfiguration()
-//    //.ReadFrom.Configuration(builder.Configuration)
-//    .WriteTo.SQLite("ExceptionDB\\ExceptionHandler.db", tableName: "exceptions", batchSize: 1)
-//    .CreateLogger();
-//builder.Host.UseSerilog();
+//Configure Serilog logger with a SQLite database
+Log.Logger = new LoggerConfiguration()
+    //.ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
+    //.WriteTo.SQLite("ExceptionDB\\ExceptionHandler.db", tableName: "exceptions", batchSize: 1)
+    .CreateLogger();
+builder.Host.UseSerilog();
 
 // Dependecy Injections
 builder.Services.AddScoped<ITestTypeRepository, TestTypeRepository>();

@@ -6,7 +6,7 @@ namespace programming_skills_assessment_backend.Interfaces;
 public interface ITestTypeRepository
 {
     Task<List<TestTypeDto>?> GetAllAsync();
-    Task<TestType?> GetByIdAsync(Guid id);
-    Task<TestType> CreateAsync(TestType testType);
-    Task<TestType?> DeleteAsync(Guid id);
+    Task<TestTypeDto?> GetByIdAsync(Guid id);
+    Task<TestTypeDto> CreateAsync(TestType testType);
+    Task<TestTypeDto?> DeleteAsync(Guid id);
 }

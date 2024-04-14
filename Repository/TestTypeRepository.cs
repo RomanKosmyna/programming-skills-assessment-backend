@@ -29,20 +29,28 @@ public class TestTypeRepository : ITestTypeRepository
         return testTypeDto;
     }
 
-    public async Task<TestType?> GetByIdAsync(Guid id)
+    public async Task<TestTypeDto?> GetByIdAsync(Guid id)
     {
-        return await _dbContext.TestTypes.Include(t => t.Tests).FirstOrDefaultAsync(t => t.TestTypeID == id);
+        var testType = await _dbContext.TestTypes.Include(test => test.Tests).FirstOrDefaultAsync(test => test.TestTypeID == id);
+
+        if (testType == null) return null;
+
+        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
+
+        return testTypeDto;
     }
 
-    public async Task<TestType> CreateAsync(TestType testType)
+    public async Task<TestTypeDto> CreateAsync(TestType testType)
     {
         await _dbContext.TestTypes.AddAsync(testType);
         await _dbContext.SaveChangesAsync();
 
-        return testType;
+        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
+
+        return testTypeDto;
     }
 
-    public async Task<TestType?> DeleteAsync(Guid id)
+    public async Task<TestTypeDto?> DeleteAsync(Guid id)
     {
         var testType = await _dbContext.TestTypes.FirstOrDefaultAsync(t => t.TestTypeID == id);
 
@@ -51,6 +59,8 @@ public class TestTypeRepository : ITestTypeRepository
         _dbContext.TestTypes.Remove(testType);
         await _dbContext.SaveChangesAsync();
 
-        return testType;
+        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
+
+        return testTypeDto;
     }
 }

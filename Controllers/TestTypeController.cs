@@ -27,4 +27,34 @@ public class TestTypeController : ControllerBase
 
         return Ok(testTypes);
     }
+
+    [HttpGet("id")]
+    public async Task<IActionResult> GetById(Guid id)
+    {
+        var testType = await _testTypeRepo.GetByIdAsync(id);
+
+        if (testType == null) return NotFound();
+
+        return Ok(testType);
+    }
+
+    [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> Create([FromBody] TestType testType)
+    {
+        var createTestType = await _testTypeRepo.CreateAsync(testType);
+
+        return CreatedAtAction(nameof(Create), createTestType);
+    }
+
+    [HttpDelete("id")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var testType = await _testTypeRepo.DeleteAsync(id);
+
+        if (testType == null) return NotFound();
+
+        return NoContent();
+    }
 }
