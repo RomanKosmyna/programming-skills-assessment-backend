@@ -18,7 +18,7 @@ public class TestTypeController : ControllerBase
 
     [HttpGet]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    //[ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestType>))]
+    //[ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestTypeDto>))]
     public async Task<IActionResult> GetAll()
     {
         var testTypes = await _testTypeRepo.GetAllAsync();
@@ -28,7 +28,7 @@ public class TestTypeController : ControllerBase
         return Ok(testTypes);
     }
 
-    [HttpGet("id")]
+    [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var testType = await _testTypeRepo.GetByIdAsync(id);
@@ -47,7 +47,7 @@ public class TestTypeController : ControllerBase
         return CreatedAtAction(nameof(Create), createTestType);
     }
 
-    [HttpDelete("id")]
+    [HttpDelete("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> Delete(Guid id)
     {

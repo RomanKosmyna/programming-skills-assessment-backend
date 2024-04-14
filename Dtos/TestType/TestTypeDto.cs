@@ -1,7 +1,7 @@
 ﻿using programming_skills_assessment_backend.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace programming_skills_assessment_backend.Dtos.TestType;
+namespace programming_skills_assessment_backend.Dtos.TestTypeDto;
 
 public class TestTypeDto
 {
