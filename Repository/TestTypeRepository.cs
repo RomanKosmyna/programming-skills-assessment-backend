@@ -31,7 +31,7 @@ public class TestTypeRepository : ITestTypeRepository
 
     public async Task<TestTypeDto?> GetByIdAsync(Guid id)
     {
-        var testType = await _dbContext.TestTypes.Include(test => test.Tests).FirstOrDefaultAsync(test => test.TestTypeID == id);
+        var testType = await _dbContext.TestTypes.Include(testType => testType.Tests).FirstOrDefaultAsync(test => test.TestTypeID == id);
 
         if (testType == null) return null;
 

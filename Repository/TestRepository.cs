@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Azure;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
 using programming_skills_assessment_backend.Dtos.TestDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
-using System.Data.Entity;
 
 namespace programming_skills_assessment_backend.Repository;
 
@@ -46,7 +48,9 @@ public class TestRepository: ITestRepository
 
     public async Task<TestDto?> GetByIdWithQuestionsAsync(Guid id)
     {
-        var test = await _dbContext.Tests.Include(test => test.Questions).FirstOrDefaultAsync(test => test.TestID == id);
+        var test = await _dbContext.Tests
+            .Include(test => test.Questions)
+            .FirstOrDefaultAsync(test => test.TestID == id);
 
         if (test == null) return null;
 
@@ -55,14 +59,15 @@ public class TestRepository: ITestRepository
         return testDto;
     }
 
-    public async Task<TestDto?> UpdateAsync(Guid id, Test test)
+    public async Task<TestDto?> UpdateAsync(Guid id, JsonPatchDocument<Test> test)
     {
         var existingTest = await GetByIdAsync(id);
 
         if (existingTest == null) return null;
 
+        test.ApplyTo(existingTest);
         //_mapper.Map(existingTest, test);
-        _dbContext.Tests.Update(test);
+        //_dbContext.Tests.Update(existingTest);
 
         await _dbContext.SaveChangesAsync();
 

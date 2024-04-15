@@ -8,6 +8,6 @@ public class TestTypeProfile : Profile
 {
     public TestTypeProfile()
     {
-        CreateMap<TestType, TestDto>().ReverseMap();
+        CreateMap<TestType, TestTypeDto>().ReverseMap();
     }
 }

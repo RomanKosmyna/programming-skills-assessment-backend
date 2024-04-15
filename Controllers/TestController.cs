@@ -1,17 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
-using programming_skills_assessment_backend.Repository;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("api/test")]
+[Route("api/[controller]/[action]")]
 [ApiController]
 public class TestController : ControllerBase
 {
-    private readonly TestRepository _testRepo;
+    private readonly ITestRepository _testRepo;
 
-    public TestController(TestRepository testRepo)
+    public TestController(ITestRepository testRepo)
     {
         _testRepo = testRepo;
     }
@@ -44,8 +45,8 @@ public class TestController : ControllerBase
         return CreatedAtAction(nameof(Create), createTest);
     }
 
-    [HttpPatch]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Test test)
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] JsonPatchDocument<Test> test)
     {
         var updatedTest = await _testRepo.UpdateAsync(id, test);
 
@@ -54,7 +55,7 @@ public class TestController : ControllerBase
         return Ok(updatedTest);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
         var test = await _testRepo.DeleteAsync(id);
