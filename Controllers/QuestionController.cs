@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using programming_skills_assessment_backend.ActionFilters;
 using programming_skills_assessment_backend.Dtos.QuestionDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
@@ -20,6 +21,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPost]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateQuestion([FromBody] Question question)
     {
         var createdQuestion = await _questionRepo.CreateQuestionAsync(question);
@@ -30,6 +32,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllQuestions()
     {
         var allQuestions = await _questionRepo.GetAllQuestionsAsync();
@@ -40,6 +43,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetQuestionById([FromRoute] Guid id)
     {
         var expectedQuestion = await _questionRepo.GetQuestionByIdAsync(id);
@@ -52,6 +56,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateQuestion([FromRoute] Guid id, [FromBody] Question question)
     {
         var updatedQuestion = await _questionRepo.UpdateQuestionAsync(id, question);
@@ -64,6 +69,7 @@ public class QuestionController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteQuestion([FromRoute] Guid id)
     {
         var deletedQuestion = await _questionRepo.DeleteQuestionAsync(id); 
