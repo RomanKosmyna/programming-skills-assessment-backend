@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using programming_skills_assessment_backend.ActionFilters;
+using programming_skills_assessment_backend.Dtos.TestDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
@@ -10,56 +12,82 @@ namespace programming_skills_assessment_backend.Controllers;
 public class TestController : ControllerBase
 {
     private readonly ITestRepository _testRepo;
+    private readonly IMapper _mapper;
 
-    public TestController(ITestRepository testRepo)
+    public TestController(ITestRepository testRepo, IMapper mapper)
     {
         _testRepo = testRepo;
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var allTests = await _testRepo.GetAllAsync();
-
-        if (allTests == null) return NotFound();
-
-        return Ok(allTests);
-    }
-
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
-    {
-        var test = await _testRepo.GetByIdWithQuestionsAsync(id);
-
-        if (test == null) return NotFound();
-
-        return Ok(test);
+        _mapper = mapper;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Test test)
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> CreateTest([FromBody] Test test)
     {
-        var createTest = await _testRepo.CreateAsync(test);
+        var createdTest = await _testRepo.CreateTestAsync(test);
 
-        return CreatedAtAction(nameof(Create), createTest);
+        var createdTestDto = _mapper.Map<TestDto>(createdTest);
+
+        return CreatedAtAction(nameof(CreateTest), createdTestDto);
     }
 
-    [HttpPatch("{id:guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Test test)
+    [HttpGet]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetAllTests()
     {
-        var updatedTest = await _testRepo.UpdateAsync(id, test);
+        var allTests = await _testRepo.GetAllTestsAsync();
+
+        var allTestsDto = allTests.Select(t => _mapper.Map<TestDto>(t)).ToList();
+
+        return Ok(allTestsDto);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetTestById([FromRoute] Guid id)
+    {
+        var expectedTest = await _testRepo.GetTestByIdAsync(id);
+
+        if (expectedTest == null) return NotFound();
+
+        var expectedTestDto = _mapper.Map<TestDto>(expectedTest);
+
+        return Ok(expectedTestDto);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetTestByIdWithQuestions([FromRoute] Guid id)
+    {
+        var expectedTest = await _testRepo.GetTestByIdWithQuestionsAsync(id);
+
+        if (expectedTest == null) return NotFound();
+
+        var expectedTestDto = _mapper.Map<TestDto>(expectedTest);
+
+        return Ok(expectedTestDto);
+    }
+
+    [HttpPut("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> UpdateTest([FromRoute] Guid id, [FromBody] Test test)
+    {
+        var updatedTest = await _testRepo.UpdateTestAsync(id, test);
 
         if (updatedTest == null) return NotFound();
 
-        return Ok(updatedTest);
+        var updatedTestDto = _mapper.Map<TestDto>(updatedTest);
+
+        return Ok(updatedTestDto);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> DeleteTest([FromRoute] Guid id)
     {
-        var test = await _testRepo.DeleteAsync(id);
+        var deletedTest = await _testRepo.DeleteTestAsync(id);
 
-        if (test == null) return NotFound();
+        if (deletedTest == null) return NotFound();
 
         return NoContent();
     }

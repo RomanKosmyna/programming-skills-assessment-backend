@@ -7,13 +7,13 @@ namespace programming_skills_assessment_backend.Models;
 public class Test
 {
     public Guid TestID { get; set; }
-    public Guid TestTypeID { get; set; }
-    // navigation prop
-    public TestType? TestType { get; set; }
     [Required]
     public string TestName { get; set; } = string.Empty;
     [Required]
-    // navigation prop
-    public List<Question>? Questions { get; set; }
     public int? DurationMinutes { get; set; }
+
+    // navigation prop
+    public Guid TestTypeID { get; set; }
+    public TestType? TestType { get; set; }
+    public List<Question>? Questions { get; set; }
 }
