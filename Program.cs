@@ -35,6 +35,7 @@ builder.Host.UseSerilog();
 // Dependecy Injections
 builder.Services.AddScoped<ITestTypeRepository, TestTypeRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 // Action filters
 builder.Services.AddScoped<ValidationFilterAttribute>();
 builder.Services.AddScoped<ValidateEntitiesExistAttribute<TestType>>();

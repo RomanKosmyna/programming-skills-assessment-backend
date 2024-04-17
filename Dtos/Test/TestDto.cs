@@ -11,6 +11,6 @@ public class TestDto
     [Required]
     public string TestName { get; set; } = string.Empty;
     [Required]
-    public List<Question>? Questions { get; set; }
+    public List<Models.Question>? Questions { get; set; }
     public int? DurationMinutes { get; set; }
 }

@@ -1,6 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
 using programming_skills_assessment_backend.Dtos.TestDto;
@@ -59,15 +57,16 @@ public class TestRepository: ITestRepository
         return testDto;
     }
 
-    public async Task<TestDto?> UpdateAsync(Guid id, JsonPatchDocument<Test> test)
+    public async Task<TestDto?> UpdateAsync(Guid id, Test test)
     {
         var existingTest = await GetByIdAsync(id);
 
         if (existingTest == null) return null;
 
-        test.ApplyTo(existingTest);
+        // testing purpose
+        existingTest.DurationMinutes = test.DurationMinutes;
         //_mapper.Map(existingTest, test);
-        //_dbContext.Tests.Update(existingTest);
+        _dbContext.Tests.Update(existingTest);
 
         await _dbContext.SaveChangesAsync();
 

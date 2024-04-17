@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.AspNetCore.JsonPatch;
+﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
@@ -46,7 +45,7 @@ public class TestController : ControllerBase
     }
 
     [HttpPatch("{id:guid}")]
-    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] JsonPatchDocument<Test> test)
+    public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] Test test)
     {
         var updatedTest = await _testRepo.UpdateAsync(id, test);
 
