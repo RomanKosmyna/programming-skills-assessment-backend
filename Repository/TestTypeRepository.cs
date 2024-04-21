@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
-using programming_skills_assessment_backend.Dtos.TestTypeDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
@@ -10,57 +8,52 @@ namespace programming_skills_assessment_backend.Repository;
 public class TestTypeRepository : ITestTypeRepository
 {
     private readonly ApplicationDBContext _dbContext;
-    private readonly IMapper _mapper;
 
-    public TestTypeRepository(ApplicationDBContext context, IMapper mapper)
+    public TestTypeRepository(ApplicationDBContext context)
     {
         _dbContext = context;
-        _mapper = mapper;
     }
 
-    public async Task<List<TestTypeDto>?> GetAllAsync()
-    {
-        var testTypes = await _dbContext.TestTypes.ToListAsync();
-
-        if (testTypes == null) return null;
-
-        var testTypeDto = testTypes.Select(t => _mapper.Map<TestTypeDto>(t)).ToList();
-
-        return testTypeDto;
-    }
-
-    public async Task<TestTypeDto?> GetByIdAsync(Guid id)
-    {
-        var testType = await _dbContext.TestTypes.Include(testType => testType.Tests).FirstOrDefaultAsync(test => test.TestTypeID == id);
-
-        if (testType == null) return null;
-
-        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
-
-        return testTypeDto;
-    }
-
-    public async Task<TestTypeDto> CreateAsync(TestType testType)
+    public async Task<TestType> CreateTestTypeAsync(TestType testType)
     {
         await _dbContext.TestTypes.AddAsync(testType);
         await _dbContext.SaveChangesAsync();
 
-        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
-
-        return testTypeDto;
+        return testType;
     }
 
-    public async Task<TestTypeDto?> DeleteAsync(Guid id)
+    public async Task<List<TestType>> GetAllTestTypesAsync()
     {
-        var testType = await _dbContext.TestTypes.FirstOrDefaultAsync(t => t.TestTypeID == id);
+        var testTypes = await _dbContext.TestTypes.ToListAsync();
 
-        if (testType == null) return null;
+        return testTypes;
+    }
 
-        _dbContext.TestTypes.Remove(testType);
+    public async Task<TestType?> GetTestTypeByIdAsync(Guid id)
+    {
+        return await _dbContext.TestTypes.FindAsync(id) ?? null;
+    }
+
+    public async Task<List<Test>?> GetTestsByTestTypeIdAsync(Guid id)
+    {
+        var expectedTestType = await _dbContext.TestTypes.FindAsync(id);
+
+        if (expectedTestType == null) return null;
+
+        var tests = await _dbContext.Tests.Where(t => t.TestTypeID == id).ToListAsync();
+
+        return tests;
+    }
+
+    public async Task<TestType?> DeleteTestTypeAsync(Guid id)
+    {
+        var expectedTestType = await _dbContext.TestTypes.FindAsync(id);
+
+        if (expectedTestType == null) return null;
+
+        _dbContext.TestTypes.Remove(expectedTestType);
         await _dbContext.SaveChangesAsync();
 
-        var testTypeDto = _mapper.Map<TestTypeDto>(testType);
-
-        return testTypeDto;
+        return expectedTestType;
     }
 }

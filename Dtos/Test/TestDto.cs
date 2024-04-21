@@ -7,10 +7,9 @@ public class TestDto
 {
     public Guid TestID { get; set; }
     public Guid TestTypeID { get; set; }
-    public TestType? TestType { get; set; }
     [Required]
     public string TestName { get; set; } = string.Empty;
     [Required]
-    public List<Models.Question>? Questions { get; set; }
+    public List<Question>? Questions { get; set; }
     public int? DurationMinutes { get; set; }
 }

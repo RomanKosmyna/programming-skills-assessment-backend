@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
+using programming_skills_assessment_backend.Dtos.TestDto;
+using programming_skills_assessment_backend.Dtos.TestTypeDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
@@ -10,50 +13,69 @@ namespace programming_skills_assessment_backend.Controllers;
 public class TestTypeController : ControllerBase
 {
     private readonly ITestTypeRepository _testTypeRepo;
+    private readonly IMapper _mapper;
 
-    public TestTypeController(ITestTypeRepository testTypeRepo)
+    public TestTypeController(ITestTypeRepository testTypeRepo, IMapper mapper)
     {
         _testTypeRepo = testTypeRepo;
-    }
-
-    [HttpGet]
-    [ServiceFilter(typeof(ValidationFilterAttribute))]
-    //[ServiceFilter(typeof(ValidateEntitiesExistAttribute<TestTypeDto>))]
-    public async Task<IActionResult> GetAll()
-    {
-        var allTestTypes = await _testTypeRepo.GetAllAsync();
-
-        if (allTestTypes == null) return NotFound();
-
-        return Ok(allTestTypes);
-    }
-
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById([FromRoute] Guid id)
-    {
-        var testType = await _testTypeRepo.GetByIdAsync(id);
-
-        if (testType == null) return NotFound();
-
-        return Ok(testType);
+        _mapper = mapper;
     }
 
     [HttpPost]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> Create([FromBody] TestType testType)
+    public async Task<IActionResult> CreateTestType([FromBody] TestType testType)
     {
-        var createTestType = await _testTypeRepo.CreateAsync(testType);
+        var createdTestType = await _testTypeRepo.CreateTestTypeAsync(testType);
 
-        return CreatedAtAction(nameof(Create), createTestType);
+        var createdTestTypeDto = _mapper.Map<TestTypeDto>(createdTestType);
+
+        return CreatedAtAction(nameof(CreateTestType), createdTestTypeDto);
+    }
+
+    [HttpGet]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetAllTestTypes()
+    {
+        var allTestTypes = await _testTypeRepo.GetAllTestTypesAsync();
+
+        var allTestTypesDto = allTestTypes.Select(t => _mapper.Map<TestTypeDto>(t)).ToList();
+
+        return Ok(allTestTypesDto);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetTestTypeById([FromRoute] Guid id)
+    {
+        var expectedTestType = await _testTypeRepo.GetTestTypeByIdAsync(id);
+
+        if (expectedTestType == null) return NotFound();
+
+        var expectedTestTypeDto = _mapper.Map<TestTypeDto>(expectedTestType);
+
+        return Ok(expectedTestTypeDto);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetTestsByTestTypeId([FromRoute] Guid id)
+    {
+        var tests = await _testTypeRepo.GetTestsByTestTypeIdAsync(id);
+
+        if (tests == null) return NotFound();
+
+        var testsDto = tests.Select(t => _mapper.Map<TestDto>(t)).ToList();
+
+        return Ok(testsDto);
     }
 
     [HttpDelete("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    public async Task<IActionResult> DeleteTestType([FromRoute] Guid id)
     {
-        var testType = await _testTypeRepo.DeleteAsync(id);
+        var deletedTestType = await _testTypeRepo.DeleteTestTypeAsync(id);
 
-        if (testType == null) return NotFound();
+        if (deletedTestType == null) return NotFound();
 
         return NoContent();
     }
