@@ -56,19 +56,6 @@ public class TestTypeController : ControllerBase
         return Ok(expectedTestTypeDto);
     }
 
-    [HttpGet("{id:guid}")]
-    [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> GetTestsByTestTypeId([FromRoute] Guid id)
-    {
-        var tests = await _testTypeRepo.GetTestsByTestTypeIdAsync(id);
-
-        if (tests == null) return NotFound();
-
-        var testsDto = tests.Select(t => _mapper.Map<TestDto>(t)).ToList();
-
-        return Ok(testsDto);
-    }
-
     [HttpDelete("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteTestType([FromRoute] Guid id)

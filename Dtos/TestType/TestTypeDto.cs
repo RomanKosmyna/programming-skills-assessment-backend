@@ -1,6 +1,4 @@
-﻿using programming_skills_assessment_backend.Models;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace programming_skills_assessment_backend.Dtos.TestTypeDto;
 
@@ -10,5 +8,5 @@ public class TestTypeDto
     [Required]
     public string TestTypeName { get; set; } = string.Empty;
 
-    public List<Test> Tests { get; set; } = [];
+    public List<Models.Test> Tests { get; set; } = [];
 }

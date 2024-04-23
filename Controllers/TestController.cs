@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
+using programming_skills_assessment_backend.Dtos.Test;
 using programming_skills_assessment_backend.Dtos.TestDto;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
@@ -66,6 +67,19 @@ public class TestController : ControllerBase
         var expectedTestDto = _mapper.Map<TestDto>(expectedTest);
 
         return Ok(expectedTestDto);
+    }
+
+    [HttpGet("{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetTestsByTestTypeId([FromRoute] Guid id)
+    {
+        var tests = await _testRepo.GetTestsByTestTypeIdAsync(id);
+
+        if (tests == null) return NotFound();
+
+        var testsDto = tests.Select(t => _mapper.Map<TestByTestTypeDto>(t)).ToList();
+
+        return Ok(testsDto);
     }
 
     [HttpPut("{id:guid}")]

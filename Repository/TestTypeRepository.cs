@@ -34,17 +34,6 @@ public class TestTypeRepository : ITestTypeRepository
         return await _dbContext.TestTypes.FindAsync(id) ?? null;
     }
 
-    public async Task<List<Test>?> GetTestsByTestTypeIdAsync(Guid id)
-    {
-        var expectedTestType = await _dbContext.TestTypes.FindAsync(id);
-
-        if (expectedTestType == null) return null;
-
-        var tests = await _dbContext.Tests.Where(t => t.TestTypeID == id).ToListAsync();
-
-        return tests;
-    }
-
     public async Task<TestType?> DeleteTestTypeAsync(Guid id)
     {
         var expectedTestType = await _dbContext.TestTypes.FindAsync(id);
