@@ -64,6 +64,7 @@ public class TestRepository: ITestRepository
 
         expectedTest.TestName = test.TestName;
         expectedTest.DurationMinutes = test.DurationMinutes;
+        expectedTest.TestedSkills = test.TestedSkills;
         expectedTest.Questions = test.Questions;
 
         await _dbContext.SaveChangesAsync();
