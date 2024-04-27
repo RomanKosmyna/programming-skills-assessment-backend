@@ -12,7 +12,7 @@ public class Question
     public int QuestionNumber { get; set; }
     [Required]
     public string QuestionText { get; set; } = string.Empty;
-    public List<string>? AnswerOptions { get; set; }
+    public List<AnswerOption> AnswerOptions { get; set; } = new List<AnswerOption>();
     public List<int>? CorrectAnswer { get; set; }
     public string? Image {  get; set; }
 

@@ -58,9 +58,9 @@ public class TestController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> GetTestByIdWithQuestions([FromRoute] Guid id)
+    public async Task<IActionResult> GetTestByIdWithRelatedTablesAsync([FromRoute] Guid id)
     {
-        var expectedTest = await _testRepo.GetTestByIdWithQuestionsAsync(id);
+        var expectedTest = await _testRepo.GetTestByIdWithRelatedTablesAsync(id);
 
         if (expectedTest == null) return NotFound();
 

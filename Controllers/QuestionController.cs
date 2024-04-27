@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
-using programming_skills_assessment_backend.Dtos.QuestionDto;
+using programming_skills_assessment_backend.Dtos.QuestionDtos;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 

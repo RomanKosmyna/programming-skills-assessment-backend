@@ -16,5 +16,5 @@ public class Test
     // navigation prop
     public Guid TestTypeID { get; set; }
     public TestType? TestType { get; set; }
-    public List<Question>? Questions { get; set; }
+    public List<Question> Questions { get; set; } = new List<Question>();
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using programming_skills_assessment_backend.Data;
 
@@ -11,9 +12,11 @@ using programming_skills_assessment_backend.Data;
 namespace programming_skills_assessment_backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240424152525_RemovedNullabilityQuestionAndAnswerOption")]
+    partial class RemovedNullabilityQuestionAndAnswerOption
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +43,6 @@ namespace programming_skills_assessment_backend.Migrations
 
                     b.HasKey("AnswerOptionID");
 
-                    b.HasIndex("QuestionID");
-
                     b.ToTable("AnswerOptions");
                 });
 
@@ -50,6 +51,10 @@ namespace programming_skills_assessment_backend.Migrations
                     b.Property<Guid>("QuestionID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AnswerOptions")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CorrectAnswer")
                         .HasColumnType("nvarchar(max)");
@@ -116,15 +121,6 @@ namespace programming_skills_assessment_backend.Migrations
                     b.ToTable("TestTypes");
                 });
 
-            modelBuilder.Entity("programming_skills_assessment_backend.Models.AnswerOption", b =>
-                {
-                    b.HasOne("programming_skills_assessment_backend.Models.Question", null)
-                        .WithMany("AnswerOptions")
-                        .HasForeignKey("QuestionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Question", b =>
                 {
                     b.HasOne("programming_skills_assessment_backend.Models.Test", "Test")
@@ -145,11 +141,6 @@ namespace programming_skills_assessment_backend.Migrations
                         .IsRequired();
 
                     b.Navigation("TestType");
-                });
-
-            modelBuilder.Entity("programming_skills_assessment_backend.Models.Question", b =>
-                {
-                    b.Navigation("AnswerOptions");
                 });
 
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Test", b =>

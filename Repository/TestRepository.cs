@@ -34,10 +34,11 @@ public class TestRepository: ITestRepository
         return await _dbContext.Tests.FindAsync(id) ?? null;
     }
 
-    public async Task<Test?> GetTestByIdWithQuestionsAsync(Guid id)
+    public async Task<Test?> GetTestByIdWithRelatedTablesAsync(Guid id)
     {
         var test = await _dbContext.Tests
             .Include(test => test.Questions)
+            .ThenInclude(question => question.AnswerOptions)
             .FirstOrDefaultAsync(test => test.TestID == id);
 
         if (test == null) return null;

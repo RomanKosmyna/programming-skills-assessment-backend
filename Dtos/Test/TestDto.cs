@@ -1,4 +1,4 @@
-﻿using programming_skills_assessment_backend.Models;
+﻿using programming_skills_assessment_backend.Dtos.QuestionDtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace programming_skills_assessment_backend.Dtos.TestDto;
@@ -10,7 +10,7 @@ public class TestDto
     [Required]
     public string TestName { get; set; } = string.Empty;
     [Required]
-    public List<Question>? Questions { get; set; }
+    public List<QuestionDto>? Questions { get; set; }
     public List<string>? TestedSkills { get; set; }
     public int? DurationMinutes { get; set; }
 }
