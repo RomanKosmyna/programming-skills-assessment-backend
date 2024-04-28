@@ -9,8 +9,7 @@ public class TestDto
     public Guid TestTypeID { get; set; }
     [Required]
     public string TestName { get; set; } = string.Empty;
-    [Required]
-    public List<QuestionDto>? Questions { get; set; }
-    public List<string>? TestedSkills { get; set; }
+    public string Description { get; set; } = string.Empty;
     public int? DurationMinutes { get; set; }
+    public List<string>? TestedSkills { get; set; }
 }

@@ -11,6 +11,8 @@ public class Test
     public string TestName { get; set; } = string.Empty;
     public List<string>? TestedSkills { get; set; }
     [Required]
+    public string Description { get; set; } = string.Empty;
+    [Required]
     public int? DurationMinutes { get; set; }
 
     // navigation prop
