@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
+using programming_skills_assessment_backend.Dtos.AnswerOption;
+using programming_skills_assessment_backend.Dtos.Question;
 using programming_skills_assessment_backend.Dtos.Test;
 using programming_skills_assessment_backend.Dtos.TestDto;
 using programming_skills_assessment_backend.Interfaces;
@@ -30,6 +32,14 @@ public class TestController : ControllerBase
         var createdTestDto = _mapper.Map<TestDto>(createdTest);
 
         return CreatedAtAction(nameof(CreateTest), createdTestDto);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CheckTestResult(Guid testID, List<QuestionAnswerDto> questions)
+    {
+        var logData = await _testRepo.CheckAnswers(testID, questions);
+        Console.WriteLine(logData);
+        return Ok(logData);
     }
 
     [HttpGet]
@@ -64,7 +74,7 @@ public class TestController : ControllerBase
 
         if (expectedTest == null) return NotFound();
 
-        var expectedTestDto = _mapper.Map<TestDto>(expectedTest);
+        var expectedTestDto = _mapper.Map<ActiveTestDto>(expectedTest);
 
         return Ok(expectedTestDto);
     }

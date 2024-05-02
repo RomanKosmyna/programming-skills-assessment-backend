@@ -9,6 +9,7 @@ using programming_skills_assessment_backend.Repository;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
@@ -26,6 +27,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection"));
 });
+  
 // Initializing SQLite database
 //ExceptionDatabaseHelper.InitializeDatabase();
 

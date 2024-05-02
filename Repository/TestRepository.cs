@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Any;
 using programming_skills_assessment_backend.Data;
+using programming_skills_assessment_backend.Dtos.AnswerOption;
+using programming_skills_assessment_backend.Dtos.Question;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
@@ -20,6 +23,21 @@ public class TestRepository: ITestRepository
         await _dbContext.SaveChangesAsync();
 
         return test;
+    }
+
+    public async Task<List<AnswerDto>?> CheckAnswers(Guid testID, List<QuestionAnswerDto> userAnswers)
+    {
+        var expectedTest = await _dbContext.Tests.FindAsync(testID);
+
+        if (expectedTest == null) return null;
+
+        List<AnswerDto> answers = [];
+
+        foreach (var questions in expectedTest.Questions)
+        {
+           Console.WriteLine(questions);
+        }
+        return answers;
     }
 
     public async Task<List<Test>> GetAllTestsAsync()

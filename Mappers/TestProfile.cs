@@ -11,5 +11,6 @@ public class TestProfile : Profile
     {
         CreateMap<Test, TestDto>().ReverseMap();
         CreateMap<Test, TestByTestTypeDto>().ReverseMap();
+        CreateMap<Test, ActiveTestDto>().ReverseMap();
     }
 }

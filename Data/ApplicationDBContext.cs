@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace programming_skills_assessment_backend.Data;
 
@@ -10,6 +9,7 @@ public class ApplicationDBContext : DbContext
     public DbSet<Test> Tests { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<AnswerOption> AnswerOptions { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ApplicationDBContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
