@@ -1,11 +1,11 @@
-﻿using Microsoft.Extensions.FileSystemGlobbing.Internal;
+﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace programming_skills_assessment_backend.Models;
 
 [Table("Users")]
-public class User
+public class User : IdentityUser
 {
     public Guid UserID { get; set; }
     [Required]

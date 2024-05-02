@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.ActionFilters;
@@ -27,7 +28,10 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection"));
 });
-  
+
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDBContext>();
+
 // Initializing SQLite database
 //ExceptionDatabaseHelper.InitializeDatabase();
 
