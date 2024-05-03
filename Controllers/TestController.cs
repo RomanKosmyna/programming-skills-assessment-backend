@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
-using programming_skills_assessment_backend.Dtos.AnswerOption;
-using programming_skills_assessment_backend.Dtos.Question;
 using programming_skills_assessment_backend.Dtos.Test;
 using programming_skills_assessment_backend.Dtos.TestDto;
 using programming_skills_assessment_backend.Interfaces;
@@ -32,14 +30,6 @@ public class TestController : ControllerBase
         var createdTestDto = _mapper.Map<TestDto>(createdTest);
 
         return CreatedAtAction(nameof(CreateTest), createdTestDto);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CheckTestResult(Guid testID, List<QuestionAnswerDto> questions)
-    {
-        var logData = await _testRepo.CheckAnswers(testID, questions);
-        Console.WriteLine(logData);
-        return Ok(logData);
     }
 
     [HttpGet]
@@ -83,7 +73,7 @@ public class TestController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestsByTestTypeId([FromRoute] Guid id)
     {
-        var tests = await _testRepo.GetTestsByTestTypeIdAsync(id);
+        var tests = await _testRepo.GetTestsByTestCategoryIdAsync(id);
 
         if (tests == null) return NotFound();
 

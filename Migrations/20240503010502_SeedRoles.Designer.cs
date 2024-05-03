@@ -12,8 +12,8 @@ using programming_skills_assessment_backend.Data;
 namespace programming_skills_assessment_backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20240502174858_AddRolesToUsers")]
-    partial class AddRolesToUsers
+    [Migration("20240503010502_SeedRoles")]
+    partial class SeedRoles
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,15 +54,15 @@ namespace programming_skills_assessment_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "45ee19cd-bc60-4eae-babc-45bc163c9522",
+                            Id = "9ac7bf9b-ee62-4318-8e59-db03bfba4f2d",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "0702143f-a164-48a7-9637-0ae43efba159",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
+                            Id = "6fe98a99-29b8-421b-9a04-10bf306acfec",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -195,6 +195,71 @@ namespace programming_skills_assessment_backend.Migrations
                     b.ToTable("AnswerOptions");
                 });
 
+            modelBuilder.Entity("programming_skills_assessment_backend.Models.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Question", b =>
                 {
                     b.Property<Guid>("QuestionID")
@@ -238,110 +303,36 @@ namespace programming_skills_assessment_backend.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<Guid>("TestCategoryID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("TestName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("TestTypeID")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TestedSkills")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TestID");
 
-                    b.HasIndex("TestTypeID");
+                    b.HasIndex("TestCategoryID");
 
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("programming_skills_assessment_backend.Models.TestType", b =>
+            modelBuilder.Entity("programming_skills_assessment_backend.Models.TestCategory", b =>
                 {
-                    b.Property<Guid>("TestTypeID")
+                    b.Property<Guid>("TestCategoryID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("TestTypeName")
+                    b.Property<string>("TestCategoryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TestTypeID");
+                    b.HasKey("TestCategoryID");
 
-                    b.ToTable("TestTypes");
-                });
-
-            modelBuilder.Entity("programming_skills_assessment_backend.Models.User", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("UserID")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("TestCategories");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -355,7 +346,7 @@ namespace programming_skills_assessment_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("programming_skills_assessment_backend.Models.User", null)
+                    b.HasOne("programming_skills_assessment_backend.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -364,7 +355,7 @@ namespace programming_skills_assessment_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("programming_skills_assessment_backend.Models.User", null)
+                    b.HasOne("programming_skills_assessment_backend.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -379,7 +370,7 @@ namespace programming_skills_assessment_backend.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("programming_skills_assessment_backend.Models.User", null)
+                    b.HasOne("programming_skills_assessment_backend.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -388,7 +379,7 @@ namespace programming_skills_assessment_backend.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("programming_skills_assessment_backend.Models.User", null)
+                    b.HasOne("programming_skills_assessment_backend.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -417,13 +408,13 @@ namespace programming_skills_assessment_backend.Migrations
 
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Test", b =>
                 {
-                    b.HasOne("programming_skills_assessment_backend.Models.TestType", "TestType")
+                    b.HasOne("programming_skills_assessment_backend.Models.TestCategory", "TestCategory")
                         .WithMany("Tests")
-                        .HasForeignKey("TestTypeID")
+                        .HasForeignKey("TestCategoryID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TestType");
+                    b.Navigation("TestCategory");
                 });
 
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Question", b =>
@@ -436,7 +427,7 @@ namespace programming_skills_assessment_backend.Migrations
                     b.Navigation("Questions");
                 });
 
-            modelBuilder.Entity("programming_skills_assessment_backend.Models.TestType", b =>
+            modelBuilder.Entity("programming_skills_assessment_backend.Models.TestCategory", b =>
                 {
                     b.Navigation("Tests");
                 });

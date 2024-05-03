@@ -1,15 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace programming_skills_assessment_backend.Models;
 
-[Table("TestTypes")]
-public class TestType
+[Table("TestCategories")]
+public class TestCategory
 {
-    public Guid TestTypeID { get; set; }
+    public Guid TestCategoryID { get; set; }
     [Required]
-    public string TestTypeName { get; set; } = string.Empty;
-    // navigation prop
+    public string TestCategoryName { get; set; } = string.Empty;
     public List<Test> Tests {  get; set; } = [];
 }

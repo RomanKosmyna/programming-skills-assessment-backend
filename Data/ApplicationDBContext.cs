@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using programming_skills_assessment_backend.Configuration;
 using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Data;
 
-public class ApplicationDBContext : IdentityDbContext<User>
+public class ApplicationDBContext : IdentityDbContext<AppUser>
 {
-    public DbSet<TestType> TestTypes { get; set; }
+    public DbSet<TestCategory> TestCategories { get; set; }
     public DbSet<Test> Tests { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<AnswerOption> AnswerOptions { get; set; }
-    public DbSet<User> Users { get; set; }
 
     public ApplicationDBContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
@@ -23,6 +22,25 @@ public class ApplicationDBContext : IdentityDbContext<User>
     {
         base.OnModelCreating(builder);
 
-        builder.ApplyConfiguration(new RoleConfiguration());
+        builder
+            .Entity<TestCategory>()
+            .HasMany(tc => tc.Tests)
+            .WithOne(t => t.TestCategory)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        List<IdentityRole> roles =
+        [
+            new IdentityRole
+            {
+                Name = "User",
+                NormalizedName = "USER"
+            },
+            new IdentityRole
+            {
+                Name = "Admin",
+                NormalizedName = "ADMIN"
+            }
+        ];
+        builder.Entity<IdentityRole>().HasData(roles);
     }
 }

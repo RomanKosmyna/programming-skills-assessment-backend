@@ -4,10 +4,10 @@ using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Mappers;
 
-public class TestTypeProfile : Profile
+public class TestCategoryProfile : Profile
 {
-    public TestTypeProfile()
+    public TestCategoryProfile()
     {
-        CreateMap<TestType, TestTypeDto>().ReverseMap();
+        CreateMap<TestCategory, TestCategoryDto>().ReverseMap();
     }
 }

@@ -7,7 +7,7 @@
 namespace programming_skills_assessment_backend.Migrations
 {
     /// <inheritdoc />
-    public partial class AddRolesToUsers : Migration
+    public partial class SeedRoles : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,8 +17,8 @@ namespace programming_skills_assessment_backend.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0702143f-a164-48a7-9637-0ae43efba159", null, "Administrator", "ADMINISTRATOR" },
-                    { "45ee19cd-bc60-4eae-babc-45bc163c9522", null, "User", "USER" }
+                    { "6fe98a99-29b8-421b-9a04-10bf306acfec", null, "Admin", "ADMIN" },
+                    { "9ac7bf9b-ee62-4318-8e59-db03bfba4f2d", null, "User", "USER" }
                 });
         }
 
@@ -28,12 +28,12 @@ namespace programming_skills_assessment_backend.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "0702143f-a164-48a7-9637-0ae43efba159");
+                keyValue: "6fe98a99-29b8-421b-9a04-10bf306acfec");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "45ee19cd-bc60-4eae-babc-45bc163c9522");
+                keyValue: "9ac7bf9b-ee62-4318-8e59-db03bfba4f2d");
         }
     }
 }

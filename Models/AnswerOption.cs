@@ -11,5 +11,5 @@ public class AnswerOption
     [Required]
     public int OptionNumber { get; set; }
     [Required]
-    public string OptionText { get; set; } = string.Empty;
+    public string OptionText { get; set; }
 }

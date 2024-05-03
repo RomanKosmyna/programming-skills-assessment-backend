@@ -16,7 +16,7 @@ public class Test
     public int? DurationMinutes { get; set; }
 
     // navigation prop
-    public Guid TestTypeID { get; set; }
-    public TestType? TestType { get; set; }
+    public Guid TestCategoryID { get; set; }
+    public TestCategory? TestCategory { get; set; }
     public List<Question> Questions { get; set; } = new List<Question>();
 }
