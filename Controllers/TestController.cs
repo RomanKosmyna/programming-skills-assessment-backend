@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
 using programming_skills_assessment_backend.Dtos.Test;
