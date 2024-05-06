@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
 using programming_skills_assessment_backend.Dtos.Test;
@@ -72,13 +71,13 @@ public class TestController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> GetTestsByTestTypeId([FromRoute] Guid id)
+    public async Task<IActionResult> GetTestsByTestCategoryId([FromRoute] Guid id)
     {
         var tests = await _testRepo.GetTestsByTestCategoryIdAsync(id);
 
         if (tests == null) return NotFound();
 
-        var testsDto = tests.Select(t => _mapper.Map<TestByTestTypeDto>(t)).ToList();
+        var testsDto = tests.Select(t => _mapper.Map<TestByTestCategoryDto>(t)).ToList();
 
         return Ok(testsDto);
     }

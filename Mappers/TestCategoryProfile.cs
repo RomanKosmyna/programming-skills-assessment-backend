@@ -8,6 +8,7 @@ public class TestCategoryProfile : Profile
 {
     public TestCategoryProfile()
     {
-        CreateMap<TestCategory, TestCategoryDto>().ReverseMap();
+        CreateMap<TestCategory, TestCategoryDto>()
+            .ForMember(tc => tc.Tests, tc => tc.Ignore());
     }
 }

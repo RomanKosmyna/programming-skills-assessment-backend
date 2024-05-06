@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
-using programming_skills_assessment_backend.Dtos.AnswerOption;
-using programming_skills_assessment_backend.Dtos.Question;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 

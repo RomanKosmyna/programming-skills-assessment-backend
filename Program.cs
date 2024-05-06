@@ -12,6 +12,7 @@ using programming_skills_assessment_backend.Models;
 using programming_skills_assessment_backend.Repository;
 using programming_skills_assessment_backend.Service;
 using Serilog;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +58,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 // Connecting first Database (Tests)
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection")); 
 });
 
 builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
@@ -67,6 +68,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 })
     .AddEntityFrameworkStores<ApplicationDBContext>();
 
@@ -98,6 +101,9 @@ builder.Services.AddAuthentication(options =>
 //Configure Serilog logger with a SQLite database
 Log.Logger = new LoggerConfiguration()
     //.ReadFrom.Configuration(builder.Configuration)
+    .MinimumLevel.Information()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.Hosting.Lifetime", LogEventLevel.Information)
     .WriteTo.Console()
     //.WriteTo.SQLite("ExceptionDB\\ExceptionHandler.db", tableName: "exceptions", batchSize: 1)
     .CreateLogger();
@@ -106,6 +112,7 @@ builder.Host.UseSerilog();
 // Dependecy Injections
 builder.Services.AddScoped<ITestCategoryRepository, TestCategoryRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
+builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();

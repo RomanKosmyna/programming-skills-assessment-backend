@@ -18,5 +18,5 @@ public class Test
     // navigation prop
     public Guid TestCategoryID { get; set; }
     public TestCategory? TestCategory { get; set; }
-    public List<Question> Questions { get; set; } = new List<Question>();
+    public List<Question> Questions { get; set; }
 }
