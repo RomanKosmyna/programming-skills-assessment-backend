@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.Data;
+using programming_skills_assessment_backend.Dtos.Question;
+using programming_skills_assessment_backend.Dtos.Test;
+using programming_skills_assessment_backend.Dtos.TestResult;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
@@ -13,26 +16,41 @@ public class TestResultRepository : ITestResultRepository
     {
         _dbContext = dbContext;
     }
-
-    public async Task<Test?> ValidateAnswers(Guid testID, List<UserQuestionAnswer> userQuestionAnswers)
+    
+    public async Task<List<QuestionResultDto>?> ValidateAnswers(Guid testID, List<UserQuestionAnswer> userQuestionAnswers)
     {
-        //var expectedTest = await _dbContext.Tests.FindAsync(testID);
-        //Serilog.Log.Information("{@expectedTest}", expectedTest);
-        //if (expectedTest == null) return null;
+        var testWithRelatedData = await _dbContext.Tests
+        .Where(t => t.TestID == testID)
+        .Select(t => new RelatedTableTestDto
+        {
+            TestID = t.TestID,
+            Questions = t.Questions.Select(q => new RelatedTableQuestionDto
+            {
+                QuestionID = q.QuestionID,
+                CorrectAnswer = q.CorrectAnswer
+            }).ToList()
+        })
+        .AsSplitQuery()
+        .FirstOrDefaultAsync();
 
-        var test = await _dbContext.Tests
-            .Include(test => test.Questions)
-            .FirstOrDefaultAsync(test => test.TestID == testID);
-        //var test = await _dbContext.Tests
-        //.Include(test => test.Questions)
-        ////.ThenInclude(q => q.AnswerOptions)
-        ////.AsSplitQuery()
-        //.FirstOrDefaultAsync(test => test.TestID == testID);
-        //.FirstOrDefaultAsync(test => test.TestID == testID);
-        if (test == null) return null;
+        if (testWithRelatedData == null) return null;
 
-        Serilog.Log.Information("{@test}", test);
+        var testQuestions = testWithRelatedData.Questions;
 
-        return test;
+        var result = testQuestions
+            .Select(question =>
+            {
+                var userAnswer = userQuestionAnswers.Find(uq => uq.QuestionID == question.QuestionID);
+
+                if (userAnswer == null) return new QuestionResultDto { QuestionID = question.QuestionID, IsCorrect = false };
+                else
+                {
+                    bool isCorrect = question.CorrectAnswer != null && question.CorrectAnswer.SequenceEqual(userAnswer.ArrayOfAnswers);
+                    return new QuestionResultDto { QuestionID = question.QuestionID, IsCorrect = isCorrect };
+                }
+            })
+            .ToList();
+
+        return result;
     }
 }
