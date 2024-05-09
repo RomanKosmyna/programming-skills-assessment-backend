@@ -114,6 +114,7 @@ builder.Services.AddScoped<ITestCategoryRepository, TestCategoryRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IUserTestResultRepository, UserTestResultRepository>();
 builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 // Action filters

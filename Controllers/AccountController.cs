@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using programming_skills_assessment_backend.ActionFilters;
@@ -85,5 +86,17 @@ public class AccountController : ControllerBase
         {
             return StatusCode(500, ex);
         }
+    }
+
+    [HttpPost("getuserid")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    [Authorize]
+    public async Task<IActionResult> GetUserIdWithUsername([FromBody] string username)
+    {
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == username);
+
+        if (user == null) return NotFound();
+
+        return Ok(new {userId = user.Id});
     }
 }

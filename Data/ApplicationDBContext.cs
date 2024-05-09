@@ -11,6 +11,7 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
     public DbSet<Test> Tests { get; set; }
     public DbSet<Question> Questions { get; set; }
     public DbSet<AnswerOption> AnswerOptions { get; set; }
+    public DbSet<UserTestResult> UserTestResults { get; set; }
 
     public ApplicationDBContext(DbContextOptions dbContextOptions)
         : base(dbContextOptions)
@@ -28,6 +29,12 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
             .WithOne(t => t.TestCategory)
             .OnDelete(DeleteBehavior.Cascade);
 
+        //builder.Entity<UserTestResult>()
+        //    .HasOne(u => u.User)
+        //    .WithMany()
+        //    .HasForeignKey(u => u.UserID)
+        //    .IsRequired();
+
         List<IdentityRole> roles =
         [
             new IdentityRole
@@ -41,6 +48,7 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
                 NormalizedName = "ADMIN"
             }
         ];
+
         builder.Entity<IdentityRole>().HasData(roles);
     }
 }
