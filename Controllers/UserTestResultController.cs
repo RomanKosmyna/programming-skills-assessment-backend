@@ -33,4 +33,15 @@ public class UserTestResultController : ControllerBase
 
         return Ok(createdTestResultDto);
     }
+
+    [HttpGet("getallusertestresults/{username}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetAllUserTestResults([FromRoute] string username)
+    {
+        var allUserTestResult = await _userTestResultRepo.GetAllUserTestResults(username);
+
+        var allUserTestResultDto = allUserTestResult.Select(utr => _mapper.Map<UserTestResultDto>(utr)).ToList();
+
+        return Ok(allUserTestResultDto);
+    }
 }

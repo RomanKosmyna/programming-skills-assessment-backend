@@ -9,5 +9,6 @@ public class UserTestResultProfile : Profile
     public UserTestResultProfile()
     {
         CreateMap<UserTestResult, SaveUserTestResultDto>();
+        CreateMap<UserTestResult, UserTestResultDto>();
     }
 }
