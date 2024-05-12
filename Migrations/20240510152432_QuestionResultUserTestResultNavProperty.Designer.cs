@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using programming_skills_assessment_backend.Data;
 
@@ -11,9 +12,11 @@ using programming_skills_assessment_backend.Data;
 namespace programming_skills_assessment_backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240510152432_QuestionResultUserTestResultNavProperty")]
+    partial class QuestionResultUserTestResultNavProperty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace programming_skills_assessment_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ce18f7d4-8847-4ca9-a2b8-68536bbe6080",
+                            Id = "9fb3dac3-3bae-4380-8034-a46214fc40e0",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "8633b922-0436-4fdd-b668-fa6e10ba1a54",
+                            Id = "63aa384e-6afd-408b-8a49-9f394e1c66b6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -359,14 +362,6 @@ namespace programming_skills_assessment_backend.Migrations
                     b.Property<Guid>("UserTestResultID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CompletionDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompletionHour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RemainingDurationTimer")
                         .HasColumnType("int");

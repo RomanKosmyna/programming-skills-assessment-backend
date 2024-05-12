@@ -29,11 +29,11 @@ public class ApplicationDBContext : IdentityDbContext<AppUser>
             .WithOne(t => t.TestCategory)
             .OnDelete(DeleteBehavior.Cascade);
 
-        //builder.Entity<UserTestResult>()
-        //    .HasOne(u => u.User)
-        //    .WithMany()
-        //    .HasForeignKey(u => u.UserID)
-        //    .IsRequired();
+        builder
+            .Entity<UserTestResult>()
+            .HasMany(utr => utr.QuestionData)
+            .WithOne(qd => qd.UserTestResult)
+            .OnDelete(DeleteBehavior.Cascade);
 
         List<IdentityRole> roles =
         [

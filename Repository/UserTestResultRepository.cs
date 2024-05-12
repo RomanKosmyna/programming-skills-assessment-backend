@@ -26,7 +26,7 @@ public class UserTestResultRepository : IUserTestResultRepository
         return userTestResult;
     }
 
-    public async Task<List<UserTestResult>> GetAllUserTestResults(string username)
+    public async Task<List<UserTestResult>?> GetAllUserTestResults(string username)
     {
         var findUser = await _userManager.FindByNameAsync(username);
 
@@ -37,5 +37,16 @@ public class UserTestResultRepository : IUserTestResultRepository
             .ToListAsync();
 
         return allUserTestResults;
+    }
+
+    public async Task<UserTestResult?> GetUserTestResultById(Guid userTestResultID)
+    {
+        var userTestResult = await _dbContext.UserTestResults
+            .Include(utr => utr.QuestionData)
+            .FirstOrDefaultAsync(utr => utr.UserTestResultID == userTestResultID);
+
+        if (userTestResult == null) return null;
+
+        return userTestResult;
     }
 }

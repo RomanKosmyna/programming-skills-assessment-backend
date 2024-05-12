@@ -12,6 +12,9 @@ public class UserTestResult
     public List<QuestionResult?> QuestionData {  get; set; }
     public int TotalDurationTimer { get; set; }
     public int RemainingDurationTimer { get; set; }
+    public string CompletionHour { get; set; }
+    public string CompletionDate { get; set; }
+    public Guid TestID { get; set; }
     public string UserID { get; set; }
     public AppUser? User { get; set; }
 }

@@ -6,4 +6,5 @@ public interface IUserTestResultRepository
 {
     Task<UserTestResult> SaveUserTestResult(UserTestResult userTestResult);
     Task<List<UserTestResult>?> GetAllUserTestResults(string username);
+    Task<UserTestResult?> GetUserTestResultById(Guid userTestResultID);
 }

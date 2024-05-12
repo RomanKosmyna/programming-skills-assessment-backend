@@ -1,14 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
-using programming_skills_assessment_backend.Dtos.TestDto;
-using programming_skills_assessment_backend.Dtos.TestTypeDto;
+using programming_skills_assessment_backend.Dtos.TestCategory;
 using programming_skills_assessment_backend.Interfaces;
 using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/testcategory")]
 [ApiController]
 public class TestCategoryController : ControllerBase
 {
@@ -32,13 +31,13 @@ public class TestCategoryController : ControllerBase
         return CreatedAtAction(nameof(CreateTestCategory), createdTestCategoryDto);
     }
 
-    [HttpGet]
+    [HttpGet("getalltestcategories")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllTestCategories()
     {
         var allTestTypes = await _testCategoryRepo.GetAllTestCategoriesAsync();
 
-        var allTestTypesDto = allTestTypes.Select(t => _mapper.Map<TestCategoryDto>(t)).ToList();
+        var allTestTypesDto = allTestTypes.Select(t => _mapper.Map<TestCategoryCardDto>(t)).ToList();
 
         return Ok(allTestTypesDto);
     }

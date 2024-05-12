@@ -31,7 +31,7 @@ public class UserTestResultController : ControllerBase
         
         var createdTestResultDto = _mapper.Map<SaveUserTestResultDto>(createdTestResult);
 
-        return Ok(createdTestResultDto);
+        return CreatedAtAction(nameof(SaveUserTestResult), createdTestResultDto);
     }
 
     [HttpGet("getallusertestresults/{username}")]
@@ -43,5 +43,18 @@ public class UserTestResultController : ControllerBase
         var allUserTestResultDto = allUserTestResult.Select(utr => _mapper.Map<UserTestResultDto>(utr)).ToList();
 
         return Ok(allUserTestResultDto);
+    }
+
+    [HttpGet("getusertestresultbyid/{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> GetUserTestResultById([FromRoute] Guid id)
+    {
+        var userTestResult = await _userTestResultRepo.GetUserTestResultById(id);
+
+        if (userTestResult == null) return NotFound(new { message = "Such Test Result could not be found" });
+
+        var userTestResultDto = _mapper.Map<SpecificTestResultDto>(userTestResult);
+
+        return Ok(userTestResultDto);
     }
 }

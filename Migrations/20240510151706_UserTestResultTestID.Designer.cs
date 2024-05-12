@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using programming_skills_assessment_backend.Data;
 
@@ -11,9 +12,11 @@ using programming_skills_assessment_backend.Data;
 namespace programming_skills_assessment_backend.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240510151706_UserTestResultTestID")]
+    partial class UserTestResultTestID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace programming_skills_assessment_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ce18f7d4-8847-4ca9-a2b8-68536bbe6080",
+                            Id = "661b4856-15e3-4ecc-b877-cad86ae70a14",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "8633b922-0436-4fdd-b668-fa6e10ba1a54",
+                            Id = "185b3b26-5ce6-4e2f-8207-615be47738e9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -298,7 +301,7 @@ namespace programming_skills_assessment_backend.Migrations
                     b.Property<Guid>("QuestionID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("UserTestResultID")
+                    b.Property<Guid?>("UserTestResultID")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("QuestionResultID");
@@ -359,14 +362,6 @@ namespace programming_skills_assessment_backend.Migrations
                     b.Property<Guid>("UserTestResultID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CompletionDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompletionHour")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RemainingDurationTimer")
                         .HasColumnType("int");
@@ -468,13 +463,9 @@ namespace programming_skills_assessment_backend.Migrations
 
             modelBuilder.Entity("programming_skills_assessment_backend.Models.QuestionResult", b =>
                 {
-                    b.HasOne("programming_skills_assessment_backend.Models.UserTestResult", "UserTestResult")
+                    b.HasOne("programming_skills_assessment_backend.Models.UserTestResult", null)
                         .WithMany("QuestionData")
-                        .HasForeignKey("UserTestResultID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("UserTestResult");
+                        .HasForeignKey("UserTestResultID");
                 });
 
             modelBuilder.Entity("programming_skills_assessment_backend.Models.Test", b =>
