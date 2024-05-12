@@ -8,7 +8,7 @@ using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/test")]
 [ApiController]
 public class TestController : ControllerBase
 {
@@ -43,7 +43,7 @@ public class TestController : ControllerBase
         return Ok(allTestsDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("gettestbyid/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestById([FromRoute] Guid id)
     {
@@ -69,13 +69,13 @@ public class TestController : ControllerBase
         return Ok(expectedTestDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("gettestsbytestcategoryid/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestsByTestCategoryId([FromRoute] Guid id)
     {
         var tests = await _testRepo.GetTestsByTestCategoryIdAsync(id);
 
-        if (tests == null) return NotFound();
+        if (tests == null) return NotFound(new {message = "Tests with such category could not be found" });
 
         var testsDto = tests.Select(t => _mapper.Map<TestByTestCategoryDto>(t)).ToList();
 
