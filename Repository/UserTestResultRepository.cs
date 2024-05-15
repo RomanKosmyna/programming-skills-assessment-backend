@@ -49,4 +49,16 @@ public class UserTestResultRepository : IUserTestResultRepository
 
         return userTestResult;
     }
+
+    public async Task<UserTestResult?> DeleteUserTestResult(Guid userTestResultID)
+    {
+        var expectedTestResult = await _dbContext.UserTestResults.FindAsync(userTestResultID);
+
+        if (expectedTestResult == null) return null;
+
+        _dbContext.UserTestResults.Remove(expectedTestResult);
+        await _dbContext.SaveChangesAsync();
+
+        return expectedTestResult;
+    }
 }

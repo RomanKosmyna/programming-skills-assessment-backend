@@ -49,14 +49,14 @@ public class TestController : ControllerBase
     {
         var expectedTest = await _testRepo.GetTestByIdAsync(id);
 
-        if (expectedTest == null) return NotFound();
+        if (expectedTest == null) return NotFound(new { message = "Such Test could not be found" });
 
         var expectedTestDto = _mapper.Map<TestDto>(expectedTest);
 
         return Ok(expectedTestDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("gettestbyidwithrelatedtables/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestByIdWithRelatedTablesAsync([FromRoute] Guid id)
     {
@@ -101,7 +101,7 @@ public class TestController : ControllerBase
     {
         var deletedTest = await _testRepo.DeleteTestAsync(id);
 
-        if (deletedTest == null) return NotFound();
+        if (deletedTest == null) return NotFound(new { message = "Such test could not be found" });
 
         return NoContent();
     }

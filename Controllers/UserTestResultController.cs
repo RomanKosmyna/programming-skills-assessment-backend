@@ -57,4 +57,15 @@ public class UserTestResultController : ControllerBase
 
         return Ok(userTestResultDto);
     }
+
+    [HttpDelete("deleteusertestresult/{id:guid}")]
+    [ServiceFilter(typeof(ValidationFilterAttribute))]
+    public async Task<IActionResult> DeleteUserTestResult([FromRoute] Guid id)
+    {
+        var deletedTestResult = await _userTestResultRepo.DeleteUserTestResult(id);
+
+        if (deletedTestResult == null) return NotFound(new { message = "Such test result could not be found" });
+
+        return NoContent();
+    }
 }
