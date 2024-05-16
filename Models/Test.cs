@@ -14,8 +14,6 @@ public class Test
     public string Description { get; set; } = string.Empty;
     [Required]
     public int? DurationMinutes { get; set; }
-
-    // navigation prop
     public Guid TestCategoryID { get; set; }
     public TestCategory? TestCategory { get; set; }
     public List<Question> Questions { get; set; }

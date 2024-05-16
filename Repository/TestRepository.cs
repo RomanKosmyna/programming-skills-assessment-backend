@@ -34,7 +34,7 @@ public class TestRepository: ITestRepository
         return await _dbContext.Tests.FindAsync(id) ?? null;
     }
 
-    public async Task<Test?> GetTestByIdWithRelatedTablesAsync(Guid id)
+    public async Task<Test?> GetTestByIdWithRelatedDataAsync(Guid id)
     {
         var test = await _dbContext.Tests
             .Include(test => test.Questions)

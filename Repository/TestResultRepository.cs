@@ -17,7 +17,7 @@ public class TestResultRepository : ITestResultRepository
         _dbContext = dbContext;
     }
     
-    public async Task<List<QuestionResultDto>?> ValidateAnswers(Guid testID, List<UserQuestionAnswer> userQuestionAnswers)
+    public async Task<List<QuestionResultDto>?> ValidateAnswersAsync(Guid testID, List<UserQuestionAnswer> userQuestionAnswers)
     {
         var testWithRelatedData = await _dbContext.Tests
         .Where(t => t.TestID == testID)

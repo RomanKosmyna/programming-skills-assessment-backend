@@ -20,7 +20,7 @@ public class TestResultController : ControllerBase
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> FormTestResult([FromRoute] Guid testID, [FromBody] List<UserQuestionAnswer> userQuestionAnswers)
     {
-        var validateAnswers = await _resultRepo.ValidateAnswers(testID, userQuestionAnswers);
+        var validateAnswers = await _resultRepo.ValidateAnswersAsync(testID, userQuestionAnswers);
 
         return Ok(validateAnswers);
     }

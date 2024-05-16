@@ -20,7 +20,7 @@ public class TestCategoryController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost("testcategory")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateTestCategory([FromBody] TestCategory testCategory)
     {
@@ -31,7 +31,7 @@ public class TestCategoryController : ControllerBase
         return CreatedAtAction(nameof(CreateTestCategory), createdTestCategoryDto);
     }
 
-    [HttpGet("getalltestcategories")]
+    [HttpGet("testcategories")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllTestCategories()
     {
@@ -42,7 +42,7 @@ public class TestCategoryController : ControllerBase
         return Ok(allTestTypesDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("testcategory/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestCategoryById([FromRoute] Guid id)
     {
@@ -50,12 +50,12 @@ public class TestCategoryController : ControllerBase
 
         if (expectedTestType == null) return NotFound();
 
-        var expectedTestTypeDto = _mapper.Map<TestCategoryDto>(expectedTestType);
+        var expectedTestTypeDto = _mapper.Map<TestCategoryCardDto>(expectedTestType);
 
         return Ok(expectedTestTypeDto);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("testcategory/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteTestCategory([FromRoute] Guid id)
     {

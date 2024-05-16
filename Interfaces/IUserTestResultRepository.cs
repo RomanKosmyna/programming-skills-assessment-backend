@@ -4,8 +4,8 @@ namespace programming_skills_assessment_backend.Interfaces;
 
 public interface IUserTestResultRepository
 {
-    Task<UserTestResult> SaveUserTestResult(UserTestResult userTestResult);
-    Task<List<UserTestResult>?> GetAllUserTestResults(string username);
-    Task<UserTestResult?> GetUserTestResultById(Guid userTestResultID);
-    Task<UserTestResult?> DeleteUserTestResult(Guid userTestResultID);
+    Task<UserTestResult> SaveUserTestResultAsync(UserTestResult userTestResult);
+    Task<List<UserTestResult>?> GetAllUserTestResultsAsync(string username);
+    Task<UserTestResult?> GetUserTestResultByIdAsync(Guid userTestResultID);
+    Task<UserTestResult?> DeleteUserTestResultAsync(Guid userTestResultID);
 }

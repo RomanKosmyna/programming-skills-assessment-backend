@@ -147,7 +147,6 @@ app.UseCors(x => x
       .SetIsOriginAllowed(origin => true));
 
 app.UseAuthorization();
-app.UseAuthorization();
 
 app.MapControllers();
 

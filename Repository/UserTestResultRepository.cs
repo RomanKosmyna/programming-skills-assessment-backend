@@ -18,7 +18,7 @@ public class UserTestResultRepository : IUserTestResultRepository
         _dbContext = dbContext;
     }
 
-    public async Task<UserTestResult> SaveUserTestResult(UserTestResult userTestResult)
+    public async Task<UserTestResult> SaveUserTestResultAsync(UserTestResult userTestResult)
     {
         await _dbContext.UserTestResults.AddAsync(userTestResult);
         await _dbContext.SaveChangesAsync();
@@ -26,7 +26,7 @@ public class UserTestResultRepository : IUserTestResultRepository
         return userTestResult;
     }
 
-    public async Task<List<UserTestResult>?> GetAllUserTestResults(string username)
+    public async Task<List<UserTestResult>?> GetAllUserTestResultsAsync(string username)
     {
         var findUser = await _userManager.FindByNameAsync(username);
 
@@ -39,7 +39,7 @@ public class UserTestResultRepository : IUserTestResultRepository
         return allUserTestResults;
     }
 
-    public async Task<UserTestResult?> GetUserTestResultById(Guid userTestResultID)
+    public async Task<UserTestResult?> GetUserTestResultByIdAsync(Guid userTestResultID)
     {
         var userTestResult = await _dbContext.UserTestResults
             .Include(utr => utr.QuestionData)
@@ -50,7 +50,7 @@ public class UserTestResultRepository : IUserTestResultRepository
         return userTestResult;
     }
 
-    public async Task<UserTestResult?> DeleteUserTestResult(Guid userTestResultID)
+    public async Task<UserTestResult?> DeleteUserTestResultAsync(Guid userTestResultID)
     {
         var expectedTestResult = await _dbContext.UserTestResults.FindAsync(userTestResultID);
 

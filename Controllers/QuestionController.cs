@@ -7,7 +7,7 @@ using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("api/[controller]/[action]")]
+[Route("api/question")]
 [ApiController]
 public class QuestionController : ControllerBase
 {
@@ -20,7 +20,7 @@ public class QuestionController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost("question")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateQuestion([FromBody] Question question)
     {
@@ -31,7 +31,7 @@ public class QuestionController : ControllerBase
         return CreatedAtAction(nameof(CreateQuestion), createQuestionDto);
     }
 
-    [HttpGet]
+    [HttpGet("questions")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllQuestions()
     {
@@ -42,33 +42,33 @@ public class QuestionController : ControllerBase
         return Ok(allQuestionsDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("question/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetQuestionById([FromRoute] Guid id)
     {
         var expectedQuestion = await _questionRepo.GetQuestionByIdAsync(id);
 
-        if (expectedQuestion == null) return NotFound();
+        if (expectedQuestion == null) return NotFound(new {message = "No such question could be found"});
 
         var expectedQuestionDto = _mapper.Map<QuestionDto>(expectedQuestion);
 
         return Ok(expectedQuestionDto);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("question/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateQuestion([FromRoute] Guid id, [FromBody] Question question)
     {
         var updatedQuestion = await _questionRepo.UpdateQuestionAsync(id, question);
 
-        if (updatedQuestion == null) return NotFound();
+        if (updatedQuestion == null) return NotFound(new { message = "No such question could be found" });
 
         var updatedQuestionDto = _mapper.Map<QuestionDto>(updatedQuestion);
 
         return Ok(updatedQuestionDto);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("question/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteQuestion([FromRoute] Guid id)
     {

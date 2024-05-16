@@ -5,5 +5,5 @@ namespace programming_skills_assessment_backend.Interfaces;
 
 public interface ITestResultRepository
 {
-    Task<List<QuestionResultDto>?> ValidateAnswers(Guid testID, List<UserQuestionAnswer> userQuestionAnswers);
+    Task<List<QuestionResultDto>?> ValidateAnswersAsync(Guid testID, List<UserQuestionAnswer> userQuestionAnswers);
 }

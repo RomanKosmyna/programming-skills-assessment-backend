@@ -7,7 +7,7 @@ using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
-[Route("/api/[controller]/[action]")]
+[Route("/api/answeroption")]
 [ApiController]
 public class AnswerOptionController : ControllerBase
 {
@@ -20,7 +20,7 @@ public class AnswerOptionController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost("answeroption")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateAnswerOption([FromBody] AnswerOption answerOption)
     {
@@ -31,7 +31,7 @@ public class AnswerOptionController : ControllerBase
         return CreatedAtAction(nameof(CreateAnswerOption), createdAnswerOptionDto);
     }
 
-    [HttpGet]
+    [HttpGet("answeroptions")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllAnswerOptions()
     {
@@ -42,39 +42,39 @@ public class AnswerOptionController : ControllerBase
         return Ok(allAnswerOptionsDto);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("answeroption/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAnswerOptionById([FromRoute] Guid id)
     {
         var expectedAnswerOption = await _answerOptionRepo.GetAnswerOptionByIdAsync(id);
 
-        if (expectedAnswerOption == null) return NotFound();
+        if (expectedAnswerOption == null) return NotFound(new { message = "No such answer option has been found" });
 
         var expectedAnswerOptionDto = _mapper.Map<AnswerOptionDto>(expectedAnswerOption);
 
         return Ok(expectedAnswerOptionDto);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("answeroption/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateAnswerOption([FromRoute] Guid id, [FromBody] AnswerOption answerOption)
     {
         var updatedAnswerOption = await _answerOptionRepo.UpdateAnswerOptionAsync(id, answerOption);
 
-        if (updatedAnswerOption == null) return NotFound();
+        if (updatedAnswerOption == null) return NotFound(new { message = "No such answer option has been found" });
 
         var updatedAnswerOptionDto = _mapper.Map<AnswerOptionDto>(updatedAnswerOption);
 
         return Ok(updatedAnswerOptionDto);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("answeroption/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteAnswerOption([FromRoute] Guid id)
     {
         var deletedAnswerOption = await _answerOptionRepo.DeleteAnswerOptionAsync(id);
 
-        if (deletedAnswerOption == null) return NotFound();
+        if (deletedAnswerOption == null) return NotFound(new { message = "No such answer option has been found" });
 
         return NoContent();
     }

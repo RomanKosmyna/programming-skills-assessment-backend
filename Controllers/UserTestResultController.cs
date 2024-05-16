@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
 using programming_skills_assessment_backend.Dtos.UserTestResult;
@@ -23,33 +22,33 @@ public class UserTestResultController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost("savetestresult")]
+    [HttpPost("testresult")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> SaveUserTestResult([FromBody] UserTestResult userTestResult)
     {
-        var createdTestResult = await _userTestResultRepo.SaveUserTestResult(userTestResult);
+        var createdTestResult = await _userTestResultRepo.SaveUserTestResultAsync(userTestResult);
         
         var createdTestResultDto = _mapper.Map<SaveUserTestResultDto>(createdTestResult);
 
         return CreatedAtAction(nameof(SaveUserTestResult), createdTestResultDto);
     }
 
-    [HttpGet("getallusertestresults/{username}")]
+    [HttpGet("testresults/{username}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllUserTestResults([FromRoute] string username)
     {
-        var allUserTestResult = await _userTestResultRepo.GetAllUserTestResults(username);
+        var allUserTestResult = await _userTestResultRepo.GetAllUserTestResultsAsync(username);
 
         var allUserTestResultDto = allUserTestResult.Select(utr => _mapper.Map<UserTestResultDto>(utr)).ToList();
 
         return Ok(allUserTestResultDto);
     }
 
-    [HttpGet("getusertestresultbyid/{id:guid}")]
+    [HttpGet("testresult/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetUserTestResultById([FromRoute] Guid id)
     {
-        var userTestResult = await _userTestResultRepo.GetUserTestResultById(id);
+        var userTestResult = await _userTestResultRepo.GetUserTestResultByIdAsync(id);
 
         if (userTestResult == null) return NotFound(new { message = "Such Test Result could not be found" });
 
@@ -58,11 +57,11 @@ public class UserTestResultController : ControllerBase
         return Ok(userTestResultDto);
     }
 
-    [HttpDelete("deleteusertestresult/{id:guid}")]
+    [HttpDelete("testresult/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteUserTestResult([FromRoute] Guid id)
     {
-        var deletedTestResult = await _userTestResultRepo.DeleteUserTestResult(id);
+        var deletedTestResult = await _userTestResultRepo.DeleteUserTestResultAsync(id);
 
         if (deletedTestResult == null) return NotFound(new { message = "Such test result could not be found" });
 

@@ -21,7 +21,7 @@ public class TestController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost("test")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> CreateTest([FromBody] Test test)
     {
@@ -32,7 +32,7 @@ public class TestController : ControllerBase
         return CreatedAtAction(nameof(CreateTest), createdTestDto);
     }
 
-    [HttpGet]
+    [HttpGet("tests")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetAllTests()
     {
@@ -43,7 +43,7 @@ public class TestController : ControllerBase
         return Ok(allTestsDto);
     }
 
-    [HttpGet("gettestbyid/{id:guid}")]
+    [HttpGet("test/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestById([FromRoute] Guid id)
     {
@@ -56,11 +56,11 @@ public class TestController : ControllerBase
         return Ok(expectedTestDto);
     }
 
-    [HttpGet("gettestbyidwithrelatedtables/{id:guid}")]
+    [HttpGet("testwithrelateddata/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> GetTestByIdWithRelatedTablesAsync([FromRoute] Guid id)
+    public async Task<IActionResult> GetTestByIdWithRelatedData([FromRoute] Guid id)
     {
-        var expectedTest = await _testRepo.GetTestByIdWithRelatedTablesAsync(id);
+        var expectedTest = await _testRepo.GetTestByIdWithRelatedDataAsync(id);
 
         if (expectedTest == null) return NotFound();
 
@@ -69,7 +69,7 @@ public class TestController : ControllerBase
         return Ok(expectedTestDto);
     }
 
-    [HttpGet("gettestsbytestcategoryid/{id:guid}")]
+    [HttpGet("testsbycategory/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> GetTestsByTestCategoryId([FromRoute] Guid id)
     {
@@ -82,7 +82,7 @@ public class TestController : ControllerBase
         return Ok(testsDto);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("test/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> UpdateTest([FromRoute] Guid id, [FromBody] Test test)
     {
@@ -95,7 +95,7 @@ public class TestController : ControllerBase
         return Ok(updatedTestDto);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("test/{id:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
     public async Task<IActionResult> DeleteTest([FromRoute] Guid id)
     {
