@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using programming_skills_assessment_backend.ActionFilters;
+using programming_skills_assessment_backend.Dtos.TestResult;
 using programming_skills_assessment_backend.Interfaces;
-using programming_skills_assessment_backend.Models;
 
 namespace programming_skills_assessment_backend.Controllers;
 
@@ -18,7 +18,7 @@ public class TestResultController : ControllerBase
 
     [HttpPost("formtestresult/{testID:guid}")]
     [ServiceFilter(typeof(ValidationFilterAttribute))]
-    public async Task<IActionResult> FormTestResult([FromRoute] Guid testID, [FromBody] List<UserQuestionAnswer> userQuestionAnswers)
+    public async Task<IActionResult> FormTestResult([FromRoute] Guid testID, [FromBody] List<UserQuestionAnswerDto> userQuestionAnswers)
     {
         var validateAnswers = await _resultRepo.ValidateAnswersAsync(testID, userQuestionAnswers);
 

@@ -75,7 +75,7 @@ public class TestController : ControllerBase
     {
         var tests = await _testRepo.GetTestsByTestCategoryIdAsync(id);
 
-        if (tests == null) return NotFound(new {message = "Tests with such category could not be found" });
+        if (tests == null) return NotFound(new { message = "Tests with such category could not be found" });
 
         var testsDto = tests.Select(t => _mapper.Map<TestByTestCategoryDto>(t)).ToList();
 

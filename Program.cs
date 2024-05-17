@@ -55,7 +55,7 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
 });
-// Connecting first Database (Tests)
+// Connecting Database
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("TestsDatabaseConnection")); 
@@ -119,7 +119,6 @@ builder.Services.AddScoped<IAnswerOptionRepository, AnswerOptionRepository>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 // Action filters
 builder.Services.AddScoped<ValidationFilterAttribute>();
-builder.Services.AddScoped<ValidateEntitiesExistAttribute<TestCategory>>();
 
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {

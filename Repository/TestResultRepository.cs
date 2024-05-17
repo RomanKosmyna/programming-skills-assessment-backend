@@ -17,7 +17,7 @@ public class TestResultRepository : ITestResultRepository
         _dbContext = dbContext;
     }
     
-    public async Task<List<QuestionResultDto>?> ValidateAnswersAsync(Guid testID, List<UserQuestionAnswer> userQuestionAnswers)
+    public async Task<List<QuestionResultDto>?> ValidateAnswersAsync(Guid testID, List<UserQuestionAnswerDto> userQuestionAnswers)
     {
         var testWithRelatedData = await _dbContext.Tests
         .Where(t => t.TestID == testID)
@@ -45,7 +45,7 @@ public class TestResultRepository : ITestResultRepository
                 if (userAnswer == null) return new QuestionResultDto { QuestionID = question.QuestionID, IsCorrect = false };
                 else
                 {
-                    bool isCorrect = question.CorrectAnswer != null && question.CorrectAnswer.SequenceEqual(userAnswer.ArrayOfAnswers);
+                    bool isCorrect = question.CorrectAnswer != null && question.CorrectAnswer.SequenceEqual(userAnswer.Answers);
                     return new QuestionResultDto { QuestionID = question.QuestionID, IsCorrect = isCorrect };
                 }
             })
