@@ -50,7 +50,7 @@ public class TestResultRepository : ITestResultRepository
                 }
             })
             .ToList();
-        Serilog.Log.Information("{@result}", result);
+
         return result;
     }
 }
